@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'quiztime.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -18,8 +18,10 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             ElevatedButton(onPressed: (){
-
-            }, child: Text('hello'))
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const quiztime(calculationType:'+'))
+              );
+            }, child: Text('addition'))
 
           ],
         ),

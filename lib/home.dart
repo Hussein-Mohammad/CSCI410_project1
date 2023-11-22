@@ -17,16 +17,49 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const quiztime(calculationType:'+'))
-              );
-            }, child: Text('addition'))
-
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>  quiztime(calculationType: '+'),
+                  ),
+                );
+              },
+              child: Text('Addition'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>  quiztime(calculationType: '-'),
+                  ),
+                );
+              },
+              child: Text('subtraction'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>  quiztime(calculationType: 'x'),
+                  ),
+                );
+              },
+              child: Text('Multiplication'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>  quiztime(calculationType: '/'),
+                  ),
+                );
+              },
+              child: Text('Division'),
+            ),
           ],
         ),
       ),
-
     );
   }
 }

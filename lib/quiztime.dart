@@ -15,11 +15,16 @@ class _quiztimeState extends State<quiztime> {
   double second=0;
   double rightTotal=0;
   int life=3;
+  String hearts='❤️❤️❤️';
   int timing=5;
+  String clock='🕛';
   int counter=0;
   late Timer timer;
   List<double> answers=[];
-  String libadakye='';
+  String quiztitle='';
+  int decimal=0;
+
+
   @override
   void initState(){
     super.initState();
@@ -32,6 +37,24 @@ class _quiztimeState extends State<quiztime> {
       setState(() {
         if (timing > 0) {
           timing--;
+          switch (timing){
+            case 4:
+              clock='🕒';
+              break;
+
+            case 3:
+              clock='🕧';
+              break;
+            case 2:
+              clock='🕘';
+              break;
+            case 1:
+              clock='🕚';
+              break;
+            case 0:
+              clock='⏰';
+              break;
+          }
         } else {
           life--;
           generator();
@@ -45,6 +68,7 @@ class _quiztimeState extends State<quiztime> {
     timer.cancel();
     if(life==0){
       timer.cancel();
+      hearts = '💔💔💔';
       showRestartDialog();
       return;
     }
@@ -53,33 +77,44 @@ class _quiztimeState extends State<quiztime> {
       showWinDialog();
       return;
     }
-    first=rand.nextInt(9)+1.0;
-    second=rand.nextInt(9)+1.0;
+    first=rand.nextInt(9)+1.0;//question
+    second=rand.nextInt(9)+1.0;//question
 
     switch(widget.calculationType){
 
       case '+':
-        libadakye='Addition';
+        quiztitle='Addition';
         rightTotal=first+second;
         break;
       case '-':
-        libadakye='Subtraction';
+        quiztitle='Subtraction';
         rightTotal=first-second;
         break;
       case 'x':
-        libadakye='Multiplication';
+        quiztitle='Multiplication';
         rightTotal=first*second;
         break;
       case '/':
-        libadakye='Division';
+        quiztitle='Division';
         rightTotal=first/second;
+        decimal=1;
         break;
+    }
+    switch (life) {
+      case 2:
+        hearts = '❤️❤️💔';
+        break;
+
+      case 1:
+        hearts = '❤️💔💔';
+        break;
+
     }
     answers=[rightTotal];
     for(int i=0;i<=2;i++){
       double wrongTotal=0;
       if(widget.calculationType=='/'){
-        wrongTotal=rand.nextDouble()*10.0;
+        wrongTotal=rand.nextDouble()*10.0; //question
       }else{
         wrongTotal=rand.nextInt(9)+1.0;
       }
@@ -95,6 +130,7 @@ class _quiztimeState extends State<quiztime> {
 void resetTimer(){
     setState(() {
       timing=5;
+      clock='🕛';
     });
 }
 
@@ -106,18 +142,22 @@ void resetTimer(){
         actions: [
           ElevatedButton(onPressed: (){
             setState(() {
+              hearts='❤️❤️❤️';
               life = 3;
               counter = 0;
               generator();
             });
             Navigator.of(context).pop();
-          }, child: const Text('Restart')),
+          },style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+           child: const Text('Restart')),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             child: const Text('Go Home'),
+
           ),
         ],
       );
@@ -132,16 +172,18 @@ void resetTimer(){
           ElevatedButton(onPressed: (){
             setState(() {
               life = 3;
+              hearts='❤️❤️❤️';
               counter = 0;
               generator();
             });
             Navigator.of(context).pop();
-          }, child: const Text('Restart')),
+          },style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              child: const Text('Play Again')),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
-            },
+            },style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             child: const Text('Go Home'),
           ),
         ],
@@ -158,6 +200,7 @@ void resetTimer(){
         life--;
       });
     }
+
     generator();
   }
 
@@ -166,47 +209,104 @@ void resetTimer(){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(libadakye),
+        title: Text('MyQuiz - $quiztitle'),
         centerTitle: true,
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
           children: [
-            Text('${first.toInt()} ${widget.calculationType} ${second.toInt()} = '),
-            const SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(onPressed: (){
-                  timer.cancel();
-                  checkResult(answers[0]);
-                }, child:Text(answers[0].toString()) ),
-                ElevatedButton(onPressed: (){
-                  timer.cancel();
-                  checkResult(answers[1]);
-                }, child:Text(answers[1].toString()) )
-              ],
+            const SizedBox(height: 24,),
+            const Row(
+                children: [
+                  SizedBox(width: 85,),
+                  Text("LIVES", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  SizedBox(width: 65,),
+                  Text('TIME', style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                ]
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                children: [const SizedBox(width: 65),
+                  Text('$hearts', style: const TextStyle(fontSize: 30)),
+                  const SizedBox(width: 70),
+                  Text('${clock}', style: const TextStyle(fontSize: 30),),
+                ]
+            ),
+            const SizedBox(height:30),
+            Container(
+                width: 340,
+                height: 150,
+                decoration: BoxDecoration(
+                  gradient: const RadialGradient(
+                      radius: 1.5,
+                      colors: [
 
-                ElevatedButton(onPressed: (){
-                  timer.cancel();
-                  checkResult(answers[2]);
-                }, child:Text(answers[2].toString()) ),
-                ElevatedButton(onPressed: (){
-                  timer.cancel();
-                  checkResult(answers[3]);
-                }, child:Text(answers[3].toString()) )
+                        Colors.cyan,
+                        Colors.teal,
+                        Colors.black,
+
+
+                      ]
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(child: Text('${first.toInt()} ${widget.calculationType} ${second.toInt()}', style: const TextStyle(fontSize: 65,color: Colors.white),),)
+            ),
+            const SizedBox(height: 60,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(height: 100,width: 120,
+                    child: ElevatedButton(onPressed:(){
+                      timer.cancel();
+                      checkResult(answers[0]);
+                    },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: Text(answers[0].toStringAsFixed(decimal), style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w300),),
+                    )
+                ),
+                SizedBox(height: 100,width: 120,
+                    child: ElevatedButton(onPressed:(){
+                      timer.cancel();
+                      checkResult(answers[1]);
+                    },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: Text(answers[1].toStringAsFixed(decimal), style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w300)),
+                    )
+                ),
               ],
             ),
-            Text('lives: $life'),
-            Text('Time Left: $timing')
+            const SizedBox(height: 50,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(height: 100,width: 120,
+                    child: ElevatedButton(onPressed:(){
+                      timer.cancel();
+                      checkResult(answers[2]);
+                    },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: Text(answers[2].toStringAsFixed(decimal), style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w300)),
+                    )
+                ),
+                SizedBox(height: 100,width: 120,
+                    child: ElevatedButton(onPressed:(){
+                      timer.cancel();
+                      checkResult(answers[3]);
+                    },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: Text(answers[3].toStringAsFixed(decimal), style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w300)),
+                    )
+                ),
+              ],
+            ),
+            const SizedBox(height: 60,),
+            const Text('Score',style: TextStyle(fontSize: 48,fontWeight: FontWeight.bold),),
+            Text('$counter',style: const TextStyle(fontSize: 38,fontWeight: FontWeight.bold))
           ],
         ),
       ),
-
     );
   }
 }
+

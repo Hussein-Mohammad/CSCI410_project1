@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'quiztime.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -12,11 +14,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mathiology', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),) ,
+        title: Image.asset('assets/image1.png'),
+        backgroundColor: Colors.black,
       ),
+      backgroundColor: Colors.teal[900],
       body: Center(
         child: Column(
+
           children: [
+            const SizedBox(height: 25),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -25,8 +31,13 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
-              child: Text('Addition'),
+
+
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black ,shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),)),
+              child:Image.asset('assets/addition.png',height: 150,width: 350),
             ),
+            const SizedBox(height: 25),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -35,8 +46,13 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
-              child: Text('subtraction'),
+
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black,shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),)),
+              child: Image.asset('assets/subtraction.png',height: 150,width: 350),
+
             ),
+            const SizedBox(height: 25),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -45,8 +61,12 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
-              child: Text('Multiplication'),
+
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black ,shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),)),
+              child: Image.asset('assets/multiplication.png',height: 150,width: 350),
             ),
+            const SizedBox(height: 25),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -55,7 +75,22 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
-              child: Text('Division'),
+
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black ,shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),)),
+              child: Image.asset('assets/division.png',height: 150,width: 350),
+
+            ),
+            const SizedBox(height: 25),
+            ElevatedButton(
+              onPressed: () {
+
+                SystemNavigator.pop();
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black ,shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),)),
+              child: Text('Quit',style: TextStyle(fontSize: 25,color: Colors.blueGrey[800]),),
+
             ),
           ],
         ),
